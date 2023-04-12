@@ -1,58 +1,63 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Col, Row, Input, Skeleton } from 'antd'
-import { Colorpicker, ColorPickerValue } from 'antd-colorpicker'
+import { Colorpicker } from 'antd-colorpicker'
+import './app.css';
 
 const App: React.FC = () => {
 
   const [form] = Form.useForm();
 
-  const defaultColor: string = '#121212'
+  const defaultColor: string = '#121212';
 
-  const [selectedColor, setSelectedColor] = useState<string>('')
+  const [selectedColor, setSelectedColor] = useState<string>('');
+
 
   const handleColorChange = (color: any) => {
     const newColor = color.hex
     setSelectedColor(newColor)
-    console.log(selectedColor)
-    form.setFieldsValue({ PickerTest: selectedColor });
-  }
-
+    // console.log(selectedColor)
+    form.setFieldsValue({ PickerTest: selectedColor })
+  };
 
   return (
     <div className='App'>
 
-      <Skeleton loading={false}>
+      <div className='color--picker'>
 
-        <Form>
+        <Skeleton loading={false}>
 
-          <Row style={{ alignItems: 'center', }} gutter={10}>
+          <Form form={form}>
 
-            <Col flex={1}>
-              <Form.Item name='PickerTest' label='Your Hex'>
-                <Input placeholder='Hex color' value={selectedColor} />
-              </Form.Item>
-            </Col>
+            <Row style={{ alignItems: 'center', }} gutter={10}>
 
-            <Col>
-              <Form.Item name='color' initialValue={defaultColor} >
-                <Colorpicker
-                  popup
-                  blockStyles={{
-                    width: '60px',
-                    height: '30px',
-                    borderRadius: '5px',
-                    cursor: 'pointer',
-                  }}
-                  onChange={handleColorChange}
-                />
-              </Form.Item>
-            </Col>
+              <Col flex={1}>
+                <Form.Item name='PickerTest' label='Your Hex'>
+                  <Input placeholder='Hex color' value={selectedColor} />
+                </Form.Item>
+              </Col>
 
-          </Row>
+              <Col>
+                <Form.Item name='color' initialValue={defaultColor} >
+                  <Colorpicker
+                    popup
+                    blockStyles={{
+                      width: '60px',
+                      height: '30px',
+                      borderRadius: '5px',
+                      cursor: 'pointer',
+                    }}
+                    onChange={handleColorChange}
+                  />
+                </Form.Item>
+              </Col>
 
-        </Form>
+            </Row>
 
-      </Skeleton>
+          </Form>
+
+        </Skeleton>
+
+      </div>
 
     </div >
   )
