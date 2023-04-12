@@ -1,48 +1,58 @@
-import React from "react";
-import { Button, Form, Col, Row, Input } from 'antd'
+import React, { useState } from "react";
+import { Form, Col, Row, Input, Skeleton } from 'antd'
 import { Colorpicker, ColorPickerValue } from 'antd-colorpicker'
 
+const App: React.FC = () => {
 
-function App() {
+  const [form] = Form.useForm();
 
-  const initialValue = { color: '#121212' }
+  const defaultColor: string = '#121212'
 
-  const handleOnFinish = (values: { color: ColorPickerValue }) => {
-    console.log(values)
+  const [selectedColor, setSelectedColor] = useState<string>('')
+
+  const handleColorChange = (color: any) => {
+    const newColor = color.hex
+    setSelectedColor(newColor)
+    console.log(selectedColor)
+    form.setFieldsValue({ PickerTest: selectedColor });
   }
 
+
   return (
-    <div className="App">
-      <Form>
-        <Row style={{ alignItems: 'center' }} gutter={20}>
-          <Col flex={1}>
-            <Form.Item name="PickerTest" label="PickerTest">
-              <Input placeholder="Color Test" />
-            </Form.Item>
-          </Col>
-          <Col>
-            <Form.Item label='Colorpicker' name='color' initialValue={initialValue}>
-              <Colorpicker
-                popup
-                blockStyles={{
-                  width: '60px',
-                  height: '30px',
-                  borderRadius: '5px',
-                  cursor: 'pointer',
-                }}
-                default
-              />
-            </Form.Item>
-          </Col>
-        </Row>
+    <div className='App'>
 
-        <Form.Item>
-          <Button type='primary' htmlType='submit'>
-            Show values in console
-          </Button>
-        </Form.Item>
+      <Skeleton loading={false}>
 
-      </Form>
+        <Form>
+
+          <Row style={{ alignItems: 'center', }} gutter={10}>
+
+            <Col flex={1}>
+              <Form.Item name='PickerTest' label='Your Hex'>
+                <Input placeholder='Hex color' value={selectedColor} />
+              </Form.Item>
+            </Col>
+
+            <Col>
+              <Form.Item name='color' initialValue={defaultColor} >
+                <Colorpicker
+                  popup
+                  blockStyles={{
+                    width: '60px',
+                    height: '30px',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                  }}
+                  onChange={handleColorChange}
+                />
+              </Form.Item>
+            </Col>
+
+          </Row>
+
+        </Form>
+
+      </Skeleton>
 
     </div >
   )
